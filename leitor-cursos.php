@@ -1,10 +1,5 @@
 <?php
 
-$arquivo = fopen('lista-cursos.txt', 'r');
+$cursos = file('lista-cursos.txt');
 
-$tamanhoDoArquivo = filesize('lista-cursos.txt');
-$cursos = fread($arquivo, $tamanhoDoArquivo);
-
-echo $cursos;
-
-fclose($arquivo);
+var_dump($cursos);
