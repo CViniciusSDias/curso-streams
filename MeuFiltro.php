@@ -4,7 +4,7 @@ class MeuFiltro extends php_user_filter
 {
     private $previousData;
 
-    public function filter($in, $out, &$consumed, $closing)
+    public function filter($in, $out, &$consumed, $closing): int
     {
         $saida = '';
 
@@ -25,15 +25,15 @@ class MeuFiltro extends php_user_filter
                 return PSFS_FEED_ME;
             }
 
-            $linhas = explode("\n", $stringFromBucket);
+        }
+        
+        $linhas = explode("\n", $stringFromBucket ?? $this->previousData);
 
-            foreach ($linhas as $linha) {
-                if (stripos($linha, 'parte') !== false) {
-                    $saida .= "$linha\n";
-                }
+        foreach ($linhas as $linha) {
+            if (stripos($linha, 'parte') !== false) {
+                $saida .= "$linha\n";
             }
         }
-
         $bucketSaida = stream_bucket_new($this->stream, $saida);
         stream_bucket_append($out, $bucketSaida);
 
